@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="austinEmployeeSalaries.json"></script>
+<script type="text/javascript">
+
+var salaries = [];
+var departmentAndOvertimeSalary = [];
+var departmentAndAllSalary = [];
+
+/**
+ * main function which gets called on button click and writes to a html document
+ */
+function go() {
+	var myArray = data.data;
+	salaries = myArray.map(pickSalary);
+	departmentAndOvertimeSalary = myArray.map(pickDepartmentAndSalary);
+	var sdata = salaries.filter(test);
+	var salaryAndDeptData = departmentAndOvertimeSalary.filter(isDeptPoliceAndEarningOvertime);
+	var allSalaryInPoliceDept = departmentAndOvertimeSalary.filter(isDeptPolice);
+	var totalSalaryForPoliceDept = allSalaryInPoliceDept.reduce(function(a, b) {
+		return a + b.salary;}, 0);
+	var outputText = "";
+	outputText += "<p>No of city workers earning above $200000 : " + sdata.length + "</p>" ;
+	outputText += "<p>No of police earning above $200000 : " + salaryAndDeptData.length + "</p>" ;
+	outputText += "<p>Total salary paid by the city to the police : " + totalSalaryForPoliceDept + "</p>" ;
+	document.getElementById("output").innerHTML = outputText;
+}
+
+function test(s) {
+	return s > 200000;
+}
+
+/**
+ * returns true if department_name is "Police" and salary is greater than 200000
+ */
+function isDeptPoliceAndEarningOvertime(s) {
+	return (s.department_name == "Police" && s.salary > 200000) ;
+}
+
+/**
+ * returns true if department_name is "Police" 
+ */
+
+function isDeptPolice(s) {
+	return s.department_name == "Police";
+}
+
+/**
+ * returns salary value for the given row
+ */
+function pickSalary(row) {
+	return parseInt(row[30]);
+}
+
+/**
+ * returns department value for the given row
+ */
+function pickDepartment(row) {
+	return row[13];
+}
+
+/**
+ * returns department and salary value as an object for the given row
+ */
+function pickDepartmentAndSalary(row) {
+	var department_name = row[13];
+	var salary = parseInt(row[30]);
+	return {department_name : department_name, salary : salary};
+}
+
+</script>
+</head>
+<body>
+<h2>
+<div id="chart_div" style="width: 600px; height: 50px;">Employee Data For City of Austin</div>
+<div><button onclick="go()">GET EMPLOYEE INFO</button></div>
+<div id="output"></div>
+</h2>
+</body>
+</html>
