@@ -1,0 +1,61 @@
+<html>
+<head>
+<script src="Employment_Chicago.json"> 
+</script>
+
+<script>
+
+var totalcity=0;
+for (var i=0;i<data.data.length;i++)
+{
+	if ((data.data[i][10] == "CITY COUNCIL" || data.data[i][10] == "CITY CLERK") && Number(data.data[i][11]) > 150000)
+	{
+		totalcity++;
+	}
+}
+console.log("Count of City Workers earning over 150,000 is: "+totalcity);
+
+
+var totalpol=0;
+for (var i=0;i<data.data.length;i++)
+{
+	if (data.data[i][10] == "POLICE" && Number(data.data[i][11]) > 150000)
+	{
+		totalpol++;
+	}
+}
+console.log("Count of Police earning over 150,000 is: "+totalpol);
+
+var totalpaid=0;
+for (var i=0;i<data.data.length;i++)
+{
+	if (data.data[i][10] == "POLICE" )
+	{
+		totalpaid+= Number(data.data[i][11]);
+	}
+}
+console.log("Total paid by city to Police is: "+totalpaid);
+
+var str1="Count of City Workers earning over 150,000 is: "+totalcity;
+var str2="Count of Police earning over 150,000 is: "+totalpol;
+var str3="Total paid by city to Police is: "+totalpaid;
+
+window.onload=function() {
+document.getElementById('first').innerHTML=str1;
+document.getElementById('second').innerHTML=str2;
+document.getElementById('third').innerHTML=str3;
+};
+
+</script>
+
+</head>
+
+<body>
+<h1> Swati's 1st Assignment</h1>
+<h2 id='first'> </h2>
+<h3 id='second'> </h3>
+<h4 id='third'> </h4>
+
+</body>
+
+</html>
