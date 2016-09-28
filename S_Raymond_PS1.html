@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Problem Set 1</title>
+	<script src="sanFransiscoEmployeeSalaries.json"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/numeral.js/1.4.5/numeral.min.js"></script>
+
+</head>
+<body>
+<script>
+// Department [13], salary[21], overtime[22], total salary [24]
+var dataArray = data.data; // store the array into a single variable.
+// Functions
+function isBigSalary(value){
+	return value[24]>=200000.0;
+}
+function isPolice(value){
+	return value[13]=="Police";
+}
+function policeSalaries(value){
+	return Number(value[24]);
+}
+function sumPolSalary(previousValue, currentValue){
+		return previousValue + currentValue;
+}
+document.write("<h1>City of San Francisco</h1>")
+// 1. How many city workers earn above $200,000 total salary?
+var bigSalaries = dataArray.filter(isBigSalary);
+//console.log("Number of salaries above $200k: "+bigSalaries.length);
+document.write("<h4>1. How many city workers earn above $200,000 total salary?</h4>");
+document.write("<p>Number of salaries above $200k: "+bigSalaries.length+"</p>");
+// 2. How many police earn above $200,000 with overtime?
+var bigPolSalaries = bigSalaries.filter(isPolice);
+//console.log("Number of police earning above $200k: "+bigPolSalaries.length);
+document.write("<h4>2. How many police earn above $200,000 with overtime?</h4>");
+document.write("<p>Number of police earning above $200k: "+bigPolSalaries.length+"</p>");
+
+// 3. What is the total paid by the city to the police?
+var dataPolSalArray = dataArray.filter(isPolice)
+							   .map(policeSalaries);
+var totalPolPaid = dataPolSalArray.reduce(sumPolSalary);
+//console.log("Total annually paid to police in San Francisco: $"+numeral(Math.round(totalPolPaid)).format('0,0')+".00");
+document.write("<h4>3. What is the total paid by the city to the police?</h4>");
+
+document.write("<p>Total annually paid to police in San Francisco: $"+numeral(Math.round(totalPolPaid)).format('0,0')+".00"+"</p>");
+</script>
+</body>
+</html>
