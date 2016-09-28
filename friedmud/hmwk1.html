@@ -1,0 +1,45 @@
+<html>
+<head>
+<script src='cutnewyork.json'>
+</script>
+</head>
+
+<body>
+  <h1>New York City Statistics:</h1>
+  <h2>City Employees Above $200k: <span id='above_200k'></span></h2>
+  <h2>Police Above $200k: <span id='police_above_200k'></span></h2>
+  <h2>Money Paid to Police: $<span id='police_total'></span></h2>
+
+  <a href='https://catalog.data.gov/dataset/civil-list-2014'>The Full Data Set</a>
+
+</body>
+
+<script>
+
+function over200k(datum)
+{
+  return Number(datum[14] > 200000)
+}
+
+function isPolice(datum)
+{
+  return datum[11] == 'POLICE DEPARTMENT         '
+}
+
+// Find the number of employees making over $200,000
+var people_over_200k = data.data.filter(over200k)
+document.getElementById('above_200k').innerHTML = people_over_200k.length
+
+// Get the number of police over 200k
+var police_over_200k = people_over_200k.filter(isPolice)
+document.getElementById('police_above_200k').innerHTML = police_over_200k.length
+
+// The total amount paid to police
+var police_total = data.data.filter(isPolice).reduce(function(previous, current, index, array)
+                                                      { return previous + Number(current[14]) }, 0)
+
+document.getElementById('police_total').innerHTML = police_total
+
+</script>
+
+</html>
