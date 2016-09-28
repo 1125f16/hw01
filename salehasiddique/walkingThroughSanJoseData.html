@@ -1,0 +1,104 @@
+<!-- Submitted by: Saleha Siddique | 924451900 | saleha@mit.edu -->
+<!-- Uses San Jose data, see .json file for data source details -->
+
+<html>
+<head>
+
+<!-- Importing San Jose Employee Salaries .json file -->
+<script src="sanJoseEmployeeSalaries.json"> </script>
+
+
+<script>
+
+/***** VARIABLE DECLARATIONS *************
+  */
+
+var ans1 = "";
+var ans2 ="";
+var ans3 = "";
+
+/***** PRE-PROCESSING *************
+  */
+
+//defining a function to convert FIELD4 (Total Cash Compensation i.e includes overtime) to a number
+var convertToNumber = function(item){
+	item.FIELD4 = parseFloat(item.FIELD4.replace(',','')); //Converts the string to a number, removing commas first
+	return item; 
+};
+
+//using map to convert FIELD4 to numeric format
+sanJoseCityData.map(convertToNumber);
+
+/***** FIRST QUESTION*************
+  */
+//definition of filter to apply for first question. Uses FIELD4 which is Total Cash Compensation (i.e. includes overtime)
+var greaterThan200K = function(empRow){
+		return (empRow.FIELD4 > 200000) ;  // return a Boolean if Total Cash Compensation greater than 200K
+};
+
+//applying the filter for first question and storing answer in a string
+ans1 = "No. of city workers earning above $200,000 total salary ie with overtime = " + sanJoseCityData.filter(greaterThan200K).length;
+
+/***** SECOND QUESTION*************
+  */
+//definition of filter to apply for second question. Uses FIELD4 which is Total Cash Compensation (i.e. includes overtime) and FIELD2 which is Department
+var greaterThan200KAndPolice = function(empRow){
+		return (empRow.FIELD4 > 200000 && empRow.FIELD2 == "Police") ;  // return a Boolean if Total Cash Compensation greater than 200K and Department is Police
+};
+
+//applying the filter for second question and storing answer in a string
+ans2 = "No. of police earning above $200,000 with overtime = " + sanJoseCityData.filter(greaterThan200KAndPolice).length;
+
+/***** THIRD QUESTION*************
+  */
+//definition of filter to apply for third question. Uses FIELD2 which is Department
+var isPolice = function(empRow){
+		return (empRow.FIELD2 == "Police") ;  // return a Boolean if Department is Police
+};
+
+//applying the filter for third question and storing filtered records
+var policeOnly = sanJoseCityData.filter(isPolice);
+
+//input for reduce function - sums up FIELD4 which is Total Cash Compensation 
+var totalPaidToPolice = function(currentTotal, currObj){
+	return currentTotal += currObj.FIELD4;
+};
+
+//reducing the filtered (police only) records - i.e. summing up Total Cash Compensation for Police
+var ans3Number = policeOnly.reduce(totalPaidToPolice,0);
+
+//storing answer in a string - truncating points after decimal for reading clarity
+ans3 = "Total paid by the city to the police = $" + parseInt(ans3Number); 
+
+/***** OUTPUT TO HTML*************
+  */
+//Inserting in the calculated answers in the respective named HTML elements
+window.onload = function(){
+document.getElementById('answer1').innerHTML = ans1;
+document.getElementById('answer2').innerHTML = ans2;
+document.getElementById('answer3').innerHTML = ans3;
+
+};
+
+</script>
+
+
+</head>
+
+<body>
+
+<h2>1.125 Problem Statement 1</h2>
+<h3>Submitted by: Saleha Siddique | 924451900 | saleha@mit.edu</h3>
+<h3>Answered using <a href="http://data.sanjoseca.gov/dataviews/225564/employee-compensation-plan-2015/">San Jose Data</a></h3>
+<h4>1. How many city workers earn above $200,000 total salary ie with overtime? </h4>
+<p id="answer1"> Answer 1 will be inserted here by the script </p>
+<h4>2. How many police earn above $200,000 with overtime?</h4>
+<p id="answer2"> Answer 2 will be inserted here by the script </p>
+<h4>3. What is the total paid by the city to the police?</h4>
+<p id="answer3"> Answer 3 will be inserted here by the script </p>
+
+</body>
+
+
+
+</html>
