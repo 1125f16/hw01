@@ -1,0 +1,39 @@
+<HTML>
+<head>
+<title>Edwin Suarez's PS1</title>
+</head>
+
+<body>
+The JavaScript code in this Web page intends to answer the following questions:
+<br>
+
+
+<script type="text/javascript" src="houstonEmployeeRoster.json"></script>
+<script type="text/javascript">
+	var data_array = data.data;
+	var data_length = data_array.length;
+	window.document.write("Analyzing "+ data_length + " salary records for the city of Houston<br>");
+
+	//gross salary (gross pay) is stored in column #15
+	//department is stored in column #7
+	var CityWorkers = data_array.filter(function(obj) {return Number(obj[15])>200000;});
+	var PoliceData = data_array.filter(function(obj) {return obj[7].includes("Police Department");});
+	var PoliceAbove = PoliceData.filter(function(obj) {return Number(obj[17])>200000;});
+	var PoliceSalary = PoliceData.map(function(obj) {return obj[15];});
+	var TotalPoliceSalary = PoliceSalary.reduce(function(a, b) { return Number(a) + Number(b);}, 0);
+
+</script>
+
+<ol>
+<li>How many city workers earn above $200,000 total salary ie with overtime? <script>window.document.write(CityWorkers.length);</script></li>
+<li>How many police earn above $200,000 with overtime? <script>window.document.write(PoliceAbove.length);</script></li>
+<li>What is the total paid by the city to the police? <script>window.document.write(TotalPoliceSalary.toLocaleString('en',{ style: 'currency', currency: 'USD'}));</script></li>
+</ol>
+<br>
+
+
+
+
+
+<body>
+</HTML>
