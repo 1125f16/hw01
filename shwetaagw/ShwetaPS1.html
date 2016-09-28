@@ -6,7 +6,7 @@
 
 var totalcityworkers=0;
 for(var i=0; i<data.data.length; i++) {
-	if ((data.data[i][10] == "CITY COUNCIL" || data.data[i][10] == "CITY CLERK") && Number(data.data[i][11]) > 200000) 
+	if (Number(data.data[i][11]) > 200000) 
 	{
 		totalcityworkers++;
 	}
