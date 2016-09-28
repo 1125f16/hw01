@@ -1,0 +1,72 @@
+<html>
+
+<!-- John Tramm - 1.125 - PSet 1 - (Fall 2016) -->
+
+<head>
+<script src="chicago_data.json">
+</script>
+
+<script>
+// Compute Salary Data
+var total = 0.0;
+var above_200k = 0;
+var total_police = 0.0;
+var num_police_above_200k = 0;
+
+// I just do a regular for loop, so as to avoid
+// looping through multiple times. This operation
+// could also be done with javascript reductions.
+for( var i = 0; i < cdata.data.length; i++)
+{
+	// Gets numerical total salary
+	var salary = Number(cdata.data[i][11]);
+	// Gets employee department
+	var etype = cdata.data[i][10];
+	// Sum Overall total
+	total += salary;
+	// Sum # employees over 200k
+	if( salary > 200000.0 )
+		above_200k++;
+	// Sum total paid to police
+	if(etype == "POLICE")
+	{
+		total_police += salary;
+		if(salary > 200000.0)
+			num_police_above_200k++;
+	}
+}
+</script>
+</head>
+
+<body>
+<h1>Welcome to my hometown of Chicago!</h1>
+<h3>John Tramm - 1.125 - PSet 1</h3>
+<div id="p1"></div>
+<div id="p2"></div>
+<div id="p3"></div>
+<div id="extra"></div>
+
+<script>
+var p1_string = "There are currently " + above_200k + " city employees making over $200k per year.";
+document.getElementById("p1").innerHTML = p1_string;
+
+var p2_string = "There are currently " + num_police_above_200k + " police employees making over $200k per year";
+document.getElementById("p2").innerHTML = p2_string;
+
+var billion = total_police/1.0e9;
+billion = billion.toFixed(2);
+var p3_string = "The total money paid to police this year will be: $" + billion + " Billion";
+document.getElementById("p3").innerHTML = p3_string;
+
+var pop = 2.719e6;
+var price_per_res = billion * 1.0e9 / pop;
+price_per_res = price_per_res.toFixed(2);
+
+var extra = "The cost of police salaries per resident of Chicago is: $" + price_per_res;
+document.getElementById("extra").innerHTML = extra;
+
+</script>
+
+</body>
+
+</html>
