@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+</head>
+
+<body>
+
+
+<script src="Chicago_City.json"></script>
+
+<script type="text/javascript">
+
+
+var emp_earn_grt_200k = 0;
+
+var police_emp_list = [];
+
+var salary_check = function(item) {
+	if (Number(item[11]) > 200000)
+		emp_earn_grt_200k ++;
+};	
+
+var police_employee = function(item){
+	if(item[10] == "POLICE") return true;
+	};
+
+police_emp_list = data.data.filter(police_employee);
+
+function compute_1() {
+
+data.data.forEach(salary_check);
+
+document.getElementById("A1").innerHTML = emp_earn_grt_200k;
+
+}
+
+function compute_2() {
+
+emp_earn_grt_200k = 0;
+
+police_emp_list.forEach(salary_check);
+
+document.getElementById("A2").innerHTML = emp_earn_grt_200k;
+
+}
+
+function compute_3(){
+
+var total_f = function(total,current){
+	return total + Number(current[11]);
+};
+var total_Salary = police_emp_list.reduce(total_f,0);
+
+document.getElementById("A3").innerHTML = total_Salary;
+
+}
+
+</script>
+
+	<h2> Assigment 1 (Chicago city data) </h2>
+
+	<button id="Q1" onclick="compute_1()"> Answer1 </button>
+	<p id="A1"></p>
+
+	<button id="Q2" onclick="compute_2()"> Answer2 </button>
+	<p id="A2"></p>
+
+	<button id="Q3" onclick="compute_3()"> Answer3 </button>
+	<p id="A3"></p>
+
+</body>
+
+
+</html>
