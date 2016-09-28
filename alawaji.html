@@ -1,0 +1,45 @@
+<html>
+<html>
+<head>
+<script src="chicago.json"> /* loading Chicago employees salary JSON file */ </script>
+<script>
+	var Chicago_Array=data.data;
+
+	console.log('Course 1.125 - Problem Set 1');
+	console.log('');
+
+	console.log('Question 1');
+	console.log('Answer: '+((Chicago_Array.map(giverow)).filter(isgreater)).length); // Passes the object to giverow and isgreater functions
+	console.log('___________________');
+
+	console.log('Question 2');
+	var police = Chicago_Array.filter(policename); // Passes the object to get police department employees only
+	console.log('Answer: '+((police.map(giverow)).filter(isgreater)).length);  // Passes the object to giverow and isgreater functions
+	console.log('___________________');
+
+	console.log('Question 3');
+	console.log('Answer: '+(police.map(giverow)).reduce(sumincome));
+	
+
+	function policename(s){ // Function to return true/false for department
+		return s[10]===('POLICE');
+	}
+
+	function sumincome(total, sum){ // Function to return the sum of all employees
+		return total+sum;
+	}
+
+	function giverow(n){ // function to return the salaries column after converting the value to integers
+		return parseInt(n[11]);
+
+	}
+	function isgreater(value){ // function to check if the value is over $200,000
+		return value>200000;
+	} 
+
+</script>
+	<title></title>
+	<body>
+</body>
+</html>
+
