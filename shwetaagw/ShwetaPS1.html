@@ -1,0 +1,60 @@
+<html>
+
+<head>
+<script src="chicagoEmployee.json"> </script>
+<script>
+
+var totalcityworkers=0;
+for(var i=0; i<data.data.length; i++) {
+	if ((data.data[i][10] == "CITY COUNCIL" || data.data[i][10] == "CITY CLERK") && Number(data.data[i][11]) > 200000) 
+	{
+		totalcityworkers++;
+	}
+}
+
+console.log("Total number of city workers earning above $200,000 is: "+totalcityworkers);
+
+var totalpolice=0;
+for (var i=0;i<data.data.length;i++) {
+	if (data.data[i][10] == "POLICE" && Number(data.data[i][11]) > 200000)
+	{
+		totalpolice++;
+	}
+}
+
+console.log("Total number of Police earning over 200,000 is: "+totalpolice);
+
+var totalpaid=0;
+for (var i=0;i<data.data.length;i++) {
+	if (data.data[i][10] == "POLICE" )
+	{
+		totalpaid+= Number(data.data[i][11]);
+	}
+}
+
+console.log("Total paid by the city to the Police is: "+totalpaid);
+
+
+var string1="Total number of city workers earning above $200,000 is: "+totalcityworkers;
+var string2="Total number of Police earning over $200,000 is: "+totalpolice;
+var string3="Total paid by the city to the Police is: $"+totalpaid;
+
+
+window.onload=function() {
+	document.getElementById('one').innerHTML=string1;
+	document.getElementById('two').innerHTML=string2;
+	document.getElementById('three').innerHTML=string3;
+
+};
+
+</script>
+</head>
+
+<body>
+<h2> Shweta Agarwal Problem Set 1</h2>
+<h3 id='one'> </h3>	
+<h3 id='two'> </h3>
+<h3 id='three'> </h3>
+</body>
+
+</html>
