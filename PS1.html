@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="Baltimore.json"></script>
+
+
+<script>
+	var baltarray=data.data;
+
+	console.log('Course 1.125 - Problem Set 1');
+	console.log('');
+
+	console.log('Question 1');
+	console.log('Answer: '+((baltarray.map(giverow)).filter(isgreater)).length);
+	console.log('');
+
+	console.log('Question 2');
+	var police= baltarray.filter(policename);
+	console.log('Answer: '+((police.map(giverow)).filter(isgreater)).length);
+	console.log('');
+
+	console.log('Question 3');
+	console.log('Answer: '+(police.map(giverow)).reduce(sumincome));
+	
+
+	function policename(s){
+		return (s[9].toUpperCase()).includes('POLICE');
+	}
+
+	function sumincome(total, sum){
+		return total+sum;
+	}
+
+	function giverow(n){
+		return parseInt(n[13]);
+
+	}
+	function isgreater(value){
+		return value>200000;
+	} 
+
+</script>
+	<title></title>
+</head>
+<body>
+
+</body>
+</html>
+
