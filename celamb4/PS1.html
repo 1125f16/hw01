@@ -1,0 +1,56 @@
+<!-- HW1 1.125 Arch & Eng IoT by Charles E Lambert-->
+<html>
+  <head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript">
+    window.onload = function(){
+      $.getJSON("https://data.baltimorecity.gov/api/views/65ac-s4v5/rows.json?accessType=DOWNLOAD", function(data) {
+
+        var salaries_over_limit = function(row) {
+          return Number(row[14]) > 200000;
+        };
+
+        var filter_officers = function(row) {
+          return (row[9].includes('POLICE') > 0);
+        };
+
+        var officers = data.data.filter(filter_officers);
+        var workers = data.data.filter(salaries_over_limit).length;
+        var total_officers = officers.filter(salaries_over_limit).length;
+
+        var total = officers
+				    .map(function(row) {return row[14];})
+				    .reduce(function(row1, row2) { return Number(row1) + Number(row2); }, 0);
+
+        console.log(workers);
+        console.log(total_officers);
+        console.log(total);
+
+        intro_str = data.meta.view.name + '. ' + data.meta.view.description;
+        document.getElementById("intro_1").innerHTML = intro_str;
+        document.getElementById("q1_ans").innerHTML = "<b>" + workers + "</b>";
+        document.getElementById("q2_ans").innerHTML = "<b>" + total_officers + "</b>";
+        document.getElementById("q3_ans").innerHTML = "<b>" + total.toLocaleString(2) + "</b>";
+
+        });
+      };
+    </script>
+  </head>
+
+  <body>
+    <h1>1.125 Architecting and Engineering IoT</h1>
+    <h2>Problem Set 1</h2>
+    <h3>Parsing data from <a href="https://data.baltimorecity.gov/api/views/65ac-s4v5/rows.json?accessType=DOWNLOAD">Baltimore City</a></h3>
+    <h4 id="intro_1"></h4>
+    <p id="q1">How many city workers earn above $200,000 total salary ie with overtime?</p>
+      <ul><li id="q1_ans"></li></ul>
+
+    <p id="q2">How many police earn above $200,000 with overtime?</p>
+      <ul><li id="q2_ans"></li></ul>
+
+    <p id="q3">What is the total paid by the city to the police?</p>
+      <ul><li id="q3_ans"></li></ul>
+
+  </body>
+
+</html>
