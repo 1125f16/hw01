@@ -1,0 +1,85 @@
+<html>
+
+<style>
+p {display:inline;}
+</style>
+
+<body>
+<h1> PS1: Seattle Employment Data</h1>
+
+<p><b>No. of city workers earning >$200k total salary:</b></p>
+<p id='cityTotal'></p><br><br>
+
+<p><b>No. of police earning >$200k total salary:</b></p>
+<p id='policeTotal'></p><br><br>
+
+<p><b>Total paid by city to police:</b></p>
+<p id='cityToPolice'></p><br><br>
+
+
+
+<script src='sdata.json'></script>
+<script>
+// Load the data
+var sdata = data.data;
+
+
+// Information about data: 
+var deptCol = 8;// Department = column 8
+var salaryCol = 14;// Pay/hour = column 14
+
+
+// Qn 1: # of workers earning > $200k
+// extract salary data
+var salaryOnly = sdata.map(function(value,index){return value[salaryCol]});
+// convert into number
+salaryOnly = salaryOnly.map(Number);
+// convert into yearly salary. only hourly data could be found -- average weekly work hours = 36, resulting in 1872 hours/hear
+salaryOnly = salaryOnly.map(function(x){return x*1872});
+// filter salaries >200,000
+var targetSalary = salaryOnly.filter(filterSalary);
+var ans1 = targetSalary.length;
+
+
+// Qn 2/3: Police earnings
+// extract police data
+var policeOnly = extractPolice(sdata);
+// extract police salary data
+var policeSalary = policeOnly.map(function(value,index){return value[salaryCol]});
+// convert into number
+policeSalary = policeSalary.map(Number);
+// convert into yearly salary
+policeSalary = policeSalary.map(function(x){return x*1872});
+// filter salaries > 200,000
+var ans2 = policeSalary.filter(filterSalary).length;
+// Total sum of police salaries
+var ans3 = policeSalary.reduce(function(previous,current){return previous+=current},0);
+
+
+// helper functions
+function filterSalary(yearSalary){
+	return yearSalary>200000;
+}
+
+function extractPolice(totalData){
+	var policeOnly = [];
+	for (i = 0; i<totalData.length; i++){
+		if (totalData[i][deptCol]=="Police Department"){
+			policeOnly.push(totalData[i]);
+		}
+	}
+	return policeOnly;
+	
+}
+
+
+// generate answers
+document.getElementById('cityTotal').innerHTML = ans1;
+document.getElementById('policeTotal').innerHTML = ans2;
+document.getElementById('cityToPolice').innerHTML = ans3;
+
+
+</script>
+
+</body>
+</html>
