@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Walk Data JSON</title>
+	<script src="BaltimoreEmployeeSalaries.json"></script>
+
+<script type="text/javascript">
+// load in data
+var myArray = data.data;
+
+// desired columns
+var salaryColumn = 14; //gross pay
+var jobTitleColumn = 9; //Poisition
+var agencyColumn = 11; //department
+//want "Police Department"
+
+//Question 1 - How many employees make > 200000 ?
+var salaries = myArray.map(pickColumnSalary);
+
+function pickColumnSalary(row){
+		return parseInt(row[salaryColumn]);
+		// salary column. gross pay (includes overtime)
+	}
+
+function test(s){return s > 200000;}
+
+var sdata = salaries.filter(test); //filter for only salaries > 200000
+var answer1 = sdata.length; 
+console.log(answer1);
+
+// console.log produces [203506,203911,238295,202124,229913,226668,218340]
+// 7 employees
+
+//Question 2 - Police making > 200000
+
+function policeFinder(obj){
+	return obj[agencyColumn].includes("Police Department");
+}
+var policeData = myArray.filter(policeFinder);
+var policeSalary = policeData.map(pickColumnSalary);
+var highPoliceSalary = policeSalary.filter(test);
+var answer2 = highPoliceSalary.length;
+
+// // Question 3 - total paid to the police
+
+function add(a,b){
+	if(isNaN(b)){
+		return a;
+	}else{
+		return Number(a) + Number(b);
+	}
+}
+
+var allPoliceSalary = policeSalary.reduce(add,0); 
+var answer3 = allPoliceSalary;
+
+</script>
+
+</head>
+<body>
+
+<h2> Baltimore Employee Data; </h2>
+
+<p> Question 1 - How many employees make > 200000 ? </p>
+<p ><script>window.document.write(answer1);</script></p>
+<br>
+<br>
+<p> Question 2 - How many police make > 200000 ? </p>
+<p ><script>window.document.write(answer2);</script></p>
+<br>
+<br>
+<p> Question 3 - Total amount paid to the police ? </p>
+<p >$<script>window.document.write(answer3);</script></p>
+<br>
+<br>
+
+
+</body>
+</html>
