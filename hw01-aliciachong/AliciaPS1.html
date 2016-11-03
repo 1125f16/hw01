@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript">
+    window.onload = function(){
+      $.getJSON("https://data.cambridgema.gov/api/views/ixg8-tyau/rows.json?accessType=DOWNLOAD", function(data) {
+
+        var salaries_over = function(row) {
+          return Number(row[14]) > 200000;
+        };
+
+       var filter_police = function(row) {
+         return (row[13].includes('Police') > 0);
+        };
+
+        var police = data.data.filter(filter_police);
+        var cityworkers = data.data.filter(salaries_over).length;
+        var total_police_ot = police.filter(salaries_over).length;
+
+        var total = police
+				    .map(function(row) {return row[14];})
+				    .reduce(function(row1, row2) { return Number(row1) + Number(row2); }, 0);
+
+
+        title = data.meta.view.name + '. ' + data.meta.view.description;
+        document.getElementById("title").innerHTML = title;
+        document.getElementById("ques1").innerHTML = "<b>" + cityworkers + "</b>";
+        document.getElementById("ques2").innerHTML = "<b>" + total_police_ot + "</b>";
+        document.getElementById("ques3").innerHTML = "<b>" + total.toLocaleString(2) + "</b>";
+
+        });
+      };
+    </script>
+  </head>
+
+
+  <body style="background-color: white;">
+       <img src="Alicia Banner.png" alt=Alicia PS2 width="1024px; height="384px" ">
+      <h1 style="color: purple; font-size:300%;">1.125 Problem Set 1</h1>
+    
+      <h2 style="color: black; font-size:120%;">Data from <a href="https://data.cambridgema.gov/api/views/ixg8-tyau/rows.json?accessType=DOWNLOAD">Cambridge, Massachusetts</a></h2>
+    
+      <h3 id="title"></h3>
+      <p id="q1">City workers that earn >$200,000 with overtime?</p>
+      <ul><li id="ques1"></li></ul>
+
+      <p id="q2">Police that earn >200,000 with overtime?</p>
+      <ul><li id="ques2"></li></ul>
+
+      <p id="q3">Total paid by the city of Cambridge to the police:</p>
+      <ul><li id="ques3"></li></ul>
+
+  </body>
+
+</html>
